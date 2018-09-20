@@ -16,11 +16,15 @@ before_install:
 
 install:
   - echo 'Iniciando script de instalação'
-  - docker-compose up
+  - docker-compose up -d
   - echo 'Iniciando migração'
   - docker-compose run web ./manage.py makemigrations
   - docker-compose run web ./manage.py migrate
 
+
 script:
   - echo 'Iniciando script de teste'
   - docker-compose run web ./manage.py test
+
+after_script:
+  - docker-compose down
